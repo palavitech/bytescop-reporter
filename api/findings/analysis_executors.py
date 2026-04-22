@@ -179,7 +179,6 @@ def execute_file_type(storage, sample, finding):
 
 from .pe_executors import (
     execute_pe_headers,
-    execute_pe_sections,
     execute_pe_imports,
     execute_pe_exports,
     execute_pe_packer_detection,
@@ -194,7 +193,6 @@ EXECUTORS = {
     'special_strings': execute_special_strings,
     'file_type': execute_file_type,
     'pe_headers': execute_pe_headers,
-    'pe_sections': execute_pe_sections,
     'pe_imports': execute_pe_imports,
     'pe_exports': execute_pe_exports,
     'pe_packer_detection': execute_pe_packer_detection,

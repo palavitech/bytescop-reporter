@@ -53,13 +53,6 @@ ANALYSIS_CHECKS = [
         'file_types': ['pe'],
     },
     {
-        'key': 'pe_sections',
-        'title': 'PE Sections',
-        'description_placeholder': '*Pending execution.* Click **Execute** to analyse PE sections (sizes, entropy, permissions, anomalies).',
-        'analysis_type': 'static',
-        'file_types': ['pe'],
-    },
-    {
         'key': 'pe_imports',
         'title': 'PE Imports & Suspicious APIs',
         'description_placeholder': '*Pending execution.* Click **Execute** to list imported DLLs/functions and flag suspicious API calls.',
