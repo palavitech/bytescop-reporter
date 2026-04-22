@@ -88,11 +88,48 @@ _PHONE_RE = re.compile(rb'(?:\+?\d{1,3}[\s\-.]?)?\(?\d{2,4}\)?[\s\-.]?\d{3,4}[\s
 _IPV4_RE = re.compile(rb'\b(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\b')
 _URL_RE = re.compile(rb'https?://[^\s\x00-\x1f"\'<>\x7f]{4,}')
 
+# Common TLDs — gTLDs + ccTLDs frequently seen in malware C2/exfil strings.
+# Not exhaustive; meant to catch obvious callbacks while avoiding filename-extension collisions.
+_DOMAIN_TLDS = (
+    b'com|net|org|info|biz|edu|gov|mil|int|'
+    b'io|co|ai|app|dev|cloud|xyz|top|online|site|store|tech|club|fun|icu|'
+    b'live|today|digital|wiki|shop|email|link|blog|news|media|world|'
+    b'uk|ru|cn|de|fr|jp|in|br|au|ca|us|nl|it|es|se|no|fi|pl|cz|gr|tr|kr|tw|'
+    b'hk|sg|my|th|vn|id|ph|mx|ar|cl|za|nz|eu|ws|ly|me|tv|cc|ir|pk|sa|ae|'
+    b'ua|by|kz|md|lt|lv|ee|sk|si|hr|rs|bg|ro|hu|pt|ch|at|be|dk|ie|is'
+)
+_DOMAIN_RE = re.compile(
+    rb'(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,62}\.)+(?:' + _DOMAIN_TLDS + rb')\b',
+    re.IGNORECASE,
+)
+
+# Windows filenames — bare or with optional drive/path prefix. Extension whitelist
+# deliberately omits `.com` to avoid colliding with the `.com` TLD in the Domains regex.
+_FILE_EXTS = (
+    b'exe|dll|bat|cmd|ps1|vbs|vbe|js|jse|wsf|wsh|scr|sys|drv|ocx|cpl|msi|msp|msc|'
+    b'inf|reg|lnk|pif|hta|jar|class|'
+    b'bin|dat|log|tmp|ini|cfg|conf|xml|json|yaml|yml|txt|'
+    b'doc|docx|xls|xlsx|ppt|pptx|pdf|rtf|'
+    b'zip|rar|7z|tar|gz|cab|iso'
+)
+_FILENAME_RE = re.compile(
+    rb'(?:[A-Za-z]:\\)?(?:[\w.\-]+\\)*[A-Za-z0-9_][\w.\-]*\.(?:' + _FILE_EXTS + rb')\b',
+    re.IGNORECASE,
+)
+
+# Windows registry paths rooted at a known hive or top-level key.
+_REGISTRY_RE = re.compile(
+    rb'(?:HKEY_(?:LOCAL_MACHINE|CURRENT_USER|CLASSES_ROOT|USERS|CURRENT_CONFIG|PERFORMANCE_DATA|DYN_DATA)|'
+    rb'HKLM|HKCU|HKCR|HKU|HKCC|SOFTWARE|SYSTEM|HARDWARE|SAM|SECURITY)'
+    rb'(?:\\[\w .\-]+)+',
+    re.IGNORECASE,
+)
+
 MAX_SPECIAL = 200
 
 
 def execute_special_strings(storage, sample, finding):
-    """Identify email addresses, phone numbers, IP addresses, and URLs."""
+    """Identify emails, IPs, URLs, phones, domains, filenames, and registry keys."""
     f = storage.open(sample.storage_uri)
     try:
         data = f.read()
@@ -105,6 +142,9 @@ def execute_special_strings(storage, sample, finding):
         ('Email Addresses', _EMAIL_RE),
         ('IP Addresses', _IPV4_RE),
         ('URLs', _URL_RE),
+        ('Domains', _DOMAIN_RE),
+        ('File Names', _FILENAME_RE),
+        ('Registry Keys', _REGISTRY_RE),
         ('Phone Numbers', _PHONE_RE),
     ]
 
@@ -113,7 +153,12 @@ def execute_special_strings(storage, sample, finding):
 
     for label, pattern in categories:
         raw_matches = pattern.findall(data)
-        decoded = sorted({m.decode('ascii', errors='replace') for m in raw_matches})
+        decoded_set = set()
+        for m in raw_matches:
+            s = m.decode('ascii', errors='replace').strip()
+            if s:
+                decoded_set.add(s)
+        decoded = sorted(decoded_set)
         grand_total += len(decoded)
 
         if not decoded:
@@ -131,7 +176,8 @@ def execute_special_strings(storage, sample, finding):
 
     description = (
         f'## Special Strings — {filename}\n\n'
-        f'Scanned for email addresses, phone numbers, IP addresses, and URLs. '
+        f'Scanned for email addresses, IP addresses, URLs, domains, file names, '
+        f'registry keys, and phone numbers. '
         f'**{grand_total}** total unique matches.\n\n'
     )
     description += '\n'.join(sections)

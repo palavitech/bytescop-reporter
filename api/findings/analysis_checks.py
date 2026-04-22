@@ -34,7 +34,7 @@ ANALYSIS_CHECKS = [
     {
         'key': 'special_strings',
         'title': 'Special Strings',
-        'description_placeholder': '*Pending execution.* Click **Execute** to identify email addresses, phone numbers, IP addresses, and URLs.',
+        'description_placeholder': '*Pending execution.* Click **Execute** to identify email addresses, IP addresses, URLs, domains, file names, registry keys, and phone numbers.',
         'analysis_type': 'static',
         'file_types': [],
     },
