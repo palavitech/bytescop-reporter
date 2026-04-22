@@ -4,6 +4,16 @@ All notable changes to BytesCop will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.5] - 2026-04-22
+
+### Added
+- Add Send to Report workflow for Malware Analysis — per-sample Report finding with "Send to Report" action on each executable finding
+- Add Domains, File Names, and Registry Keys categories to the Special Strings finding
+- Auto-expand finding drawer when Execute is clicked
+
+### Changed
+- Fold PE Sections table into the Packer Detection finding; remove the standalone PE Sections check
+
 ## [1.2.4] - 2026-04-16
 
 ### Added

@@ -112,7 +112,7 @@ def seed_analysis_findings(engagement, tenant, user):
                 analysis_type=check['analysis_type'],
                 description_md=check['description_placeholder'],
                 analysis_check_key=check['key'],
-                execution_status='pending',
+                execution_status='' if check['analysis_type'] == 'manual' else 'pending',
                 created_by=user,
             )
             created += 1
@@ -177,6 +177,7 @@ class EngagementViewSet(AuditedModelViewSet):
         'evidence_sources_delete': ['engagement.update'],
         'initialize_analysis': ['engagement.update'],
         'execute_finding': ['engagement.update'],
+        'send_to_report_finding': ['engagement.update'],
         'stakeholders': ['engagement.view'],
         'stakeholders_list': ['engagement.view'],
         'stakeholders_create': ['engagement.update'],
@@ -1017,6 +1018,77 @@ class EngagementViewSet(AuditedModelViewSet):
         )
 
         return Response({'status': 'started'}, status=status.HTTP_202_ACCEPTED)
+
+    # ------------------------------------------------------------------
+    # Send to Report: POST /api/engagements/<pk>/findings/<fid>/send-to-report/
+    # ------------------------------------------------------------------
+
+    @action(detail=True, methods=['post'], url_path=r'findings/(?P<finding_id>[^/.]+)/send-to-report')
+    def send_to_report_finding(self, request, pk=None, finding_id=None):
+        self.action = 'send_to_report_finding'
+        self.check_permissions(request)
+        engagement = self.get_object()
+
+        try:
+            source = Finding.objects.get(
+                id=finding_id,
+                engagement=engagement,
+                tenant=request.tenant,
+            )
+        except Finding.DoesNotExist:
+            return Response({'detail': 'Finding not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        if source.analysis_check_key == 'report':
+            return Response(
+                {'detail': 'Cannot send the Report finding to itself.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not source.sample_id:
+            return Response(
+                {'detail': 'Source finding has no associated sample.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if source.analysis_check_key and source.execution_status != 'completed':
+            return Response(
+                {'detail': 'Source finding has not been executed yet.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            report = Finding.objects.get(
+                engagement=engagement,
+                tenant=request.tenant,
+                sample_id=source.sample_id,
+                analysis_check_key='report',
+            )
+        except Finding.DoesNotExist:
+            return Response(
+                {'detail': 'No Report finding exists for this sample. Run Initialize Analysis first.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        from django.utils import timezone
+        timestamp = timezone.now().strftime('%Y-%m-%d %H:%M UTC')
+        append_block = (
+            f'\n\n---\n\n'
+            f'### From: {source.title}  ·  {timestamp}\n\n'
+            f'{source.description_md}\n'
+        )
+        report.description_md = (report.description_md or '') + append_block
+        report.save(update_fields=['description_md', 'updated_at'])
+
+        log_audit(
+            request=request, action=AuditAction.UPDATE,
+            resource_type='finding', resource_id=str(report.id),
+            resource_repr=f'Send to Report: {source.title} -> {report.id}',
+        )
+
+        return Response(
+            {'report_id': str(report.id), 'updated_at': report.updated_at.isoformat()},
+            status=status.HTTP_200_OK,
+        )
 
     # ------------------------------------------------------------------
     # Stakeholders: /api/engagements/<pk>/stakeholders/

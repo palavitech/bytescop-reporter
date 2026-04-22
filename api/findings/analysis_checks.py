@@ -18,6 +18,13 @@ logger = logging.getLogger(__name__)
 
 ANALYSIS_CHECKS = [
     {
+        'key': 'report',
+        'title': 'Report',
+        'description_placeholder': '*Empty.* Use **Send to Report** on any finding to append its content here, or edit this finding directly to build your analysis summary.',
+        'analysis_type': 'manual',
+        'file_types': [],
+    },
+    {
         'key': 'hash_identification',
         'title': 'File Hash Identification',
         'description_placeholder': '*Pending execution.* Click **Execute** to generate file hashes.',
@@ -34,7 +41,7 @@ ANALYSIS_CHECKS = [
     {
         'key': 'special_strings',
         'title': 'Special Strings',
-        'description_placeholder': '*Pending execution.* Click **Execute** to identify email addresses, phone numbers, IP addresses, and URLs.',
+        'description_placeholder': '*Pending execution.* Click **Execute** to identify email addresses, IP addresses, URLs, domains, file names, registry keys, and phone numbers.',
         'analysis_type': 'static',
         'file_types': [],
     },
@@ -49,13 +56,6 @@ ANALYSIS_CHECKS = [
         'key': 'pe_headers',
         'title': 'PE Headers',
         'description_placeholder': '*Pending execution.* Click **Execute** to parse PE headers (machine type, compile timestamp, entry point, subsystem).',
-        'analysis_type': 'static',
-        'file_types': ['pe'],
-    },
-    {
-        'key': 'pe_sections',
-        'title': 'PE Sections',
-        'description_placeholder': '*Pending execution.* Click **Execute** to analyse PE sections (sizes, entropy, permissions, anomalies).',
         'analysis_type': 'static',
         'file_types': ['pe'],
     },

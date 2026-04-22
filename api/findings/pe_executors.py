@@ -304,85 +304,6 @@ def execute_pe_headers(storage, sample, finding):
 
 
 # ---------------------------------------------------------------------------
-# PE Sections executor
-# ---------------------------------------------------------------------------
-
-def execute_pe_sections(storage, sample, finding):
-    """Analyse PE sections — sizes, entropy, permissions, anomalies."""
-    data = _read_sample(storage, sample)
-    pe, err = _parse_pe(data)
-    if err:
-        return f'## PE Sections — {sample.original_filename}\n\n{err}'
-
-    filename = sample.original_filename
-    anomalies = []
-
-    md = (
-        f'## PE Sections — {filename}\n\n'
-        f'| Section | Virtual Size | Raw Size | Entropy | Permissions | Flags |\n'
-        f'|---------|-------------|----------|---------|-------------|-------|\n'
-    )
-
-    for section in pe.sections:
-        name = section.Name.decode('utf-8', errors='replace').replace('\x00', '')
-        vsize = section.Misc_VirtualSize
-        rsize = section.SizeOfRawData
-        sect_data = section.get_data()
-        ent = _entropy(sect_data)
-
-        perms = []
-        chars = section.Characteristics
-        if chars & 0x20000000:
-            perms.append('X')
-        if chars & 0x40000000:
-            perms.append('R')
-        if chars & 0x80000000:
-            perms.append('W')
-        perm_str = ''.join(perms) or '—'
-
-        flags = []
-        if ent > 7.0:
-            flags.append('HIGH ENTROPY')
-        if 'X' in perms and 'W' in perms:
-            flags.append('W+X')
-        if vsize > 0 and rsize > 0 and vsize > rsize * 10:
-            flags.append('INFLATED')
-        flag_str = ', '.join(flags) if flags else '—'
-
-        md += f'| `{name}` | {vsize:,} | {rsize:,} | {ent:.2f} | {perm_str} | {flag_str} |\n'
-
-        # Collect anomalies
-        if ent > 7.0:
-            anomalies.append(f'Section `{name}` has high entropy ({ent:.2f}) — likely packed or encrypted')
-        if 'X' in perms and 'W' in perms:
-            anomalies.append(f'Section `{name}` is both writable and executable (W+X) — suspicious')
-        if vsize > 0 and rsize == 0:
-            anomalies.append(f'Section `{name}` has zero raw size but virtual size {vsize:,} — runtime unpacking')
-
-    # Overlay check
-    overlay_offset = pe.get_overlay_data_start_offset()
-    if overlay_offset is not None:
-        overlay_size = len(data) - overlay_offset
-        if overlay_size > 0:
-            pct = overlay_size / len(data) * 100
-            overlay_ent = _entropy(data[overlay_offset:overlay_offset + min(overlay_size, 4096)])
-            note = f'Overlay detected: {overlay_size:,} bytes ({pct:.1f}% of file) appended after last section'
-            if overlay_ent > 7.0:
-                note += f' — high entropy ({overlay_ent:.2f}), likely compressed or encrypted'
-            anomalies.append(note)
-
-    if anomalies:
-        md += '\n### Anomalies\n\n'
-        for a in anomalies:
-            md += f'- {a}\n'
-    else:
-        md += '\nNo anomalies detected.\n'
-
-    pe.close()
-    return md
-
-
-# ---------------------------------------------------------------------------
 # PE Imports & Suspicious APIs executor
 # ---------------------------------------------------------------------------
 
@@ -573,14 +494,6 @@ def execute_pe_packer_detection(storage, sample, finding):
     else:
         indicators.append('No import table found — binary may be fully packed')
 
-    # Check for suspicious section size ratios
-    for section in pe.sections:
-        name = section.Name.decode('utf-8', errors='replace').replace('\x00', '')
-        vsize = section.Misc_VirtualSize
-        rsize = section.SizeOfRawData
-        if rsize > 0 and vsize > rsize * 5:
-            indicators.append(f'Section `{name}` virtual size ({vsize:,}) is {vsize // rsize}x raw size ({rsize:,}) — runtime unpacking')
-
     # Check for overlay (data appended past the last PE section)
     overlay_offset = pe.get_overlay_data_start_offset()
     if overlay_offset is not None:
@@ -615,17 +528,37 @@ def execute_pe_packer_detection(storage, sample, finding):
     else:
         md += '### Verdict: NOT PACKED\n\nNo packing indicators detected.\n'
 
-    # Entropy per section table
-    md += '\n### Section Entropy\n\n'
-    md += '| Section | Raw Size | Entropy | Status |\n'
-    md += '|---------|----------|---------|--------|\n'
+    # Per-section table — sizes, entropy, permissions, anomaly flags
+    md += '\n### Sections\n\n'
+    md += '| Section | Virtual Size | Raw Size | Entropy | Permissions | Flags |\n'
+    md += '|---------|-------------|----------|---------|-------------|-------|\n'
     for section in pe.sections:
         name = section.Name.decode('utf-8', errors='replace').replace('\x00', '')
+        vsize = section.Misc_VirtualSize
         rsize = section.SizeOfRawData
         sect_data = section.get_data()
         ent = _entropy(sect_data)
-        status = 'HIGH' if ent > 7.0 else 'Normal'
-        md += f'| `{name}` | {rsize:,} | {ent:.2f} | {status} |\n'
+
+        perms = []
+        chars = section.Characteristics
+        if chars & 0x20000000:
+            perms.append('X')
+        if chars & 0x40000000:
+            perms.append('R')
+        if chars & 0x80000000:
+            perms.append('W')
+        perm_str = ''.join(perms) or '—'
+
+        flags = []
+        if ent > 7.0:
+            flags.append('HIGH ENTROPY')
+        if 'X' in perms and 'W' in perms:
+            flags.append('W+X')
+        if vsize > 0 and rsize > 0 and vsize > rsize * 10:
+            flags.append('INFLATED')
+        flag_str = ', '.join(flags) if flags else '—'
+
+        md += f'| `{name}` | {vsize:,} | {rsize:,} | {ent:.2f} | {perm_str} | {flag_str} |\n'
 
     pe.close()
     return md

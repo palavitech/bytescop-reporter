@@ -1244,6 +1244,101 @@ class ExecuteFindingTests(_BaseEngagementTestMixin, APITestCase):
 
 
 # ===================================================================
+# Send to Report endpoint
+# ===================================================================
+
+class SendToReportTests(_BaseEngagementTestMixin, APITestCase):
+    """Test POST /api/engagements/<pk>/findings/<fid>/send-to-report/."""
+
+    def setUp(self):
+        self._setup_base()
+        self.engagement.engagement_type = 'malware_analysis'
+        self.engagement.save()
+        self.sample = MalwareSample.objects.create(
+            tenant=self.tenant,
+            engagement=self.engagement,
+            original_filename='test.exe',
+            safe_filename='test.exe.sample',
+            storage_uri='local://test',
+            uploaded_by=self.owner,
+        )
+        self.source = Finding.objects.create(
+            tenant=self.tenant,
+            engagement=self.engagement,
+            sample=self.sample,
+            title='File Hash Identification',
+            analysis_check_key='hash_identification',
+            analysis_type='static',
+            execution_status='completed',
+            description_md='## File Hash Identification\n\nMD5: `deadbeef`',
+            created_by=self.owner,
+        )
+        self.report = Finding.objects.create(
+            tenant=self.tenant,
+            engagement=self.engagement,
+            sample=self.sample,
+            title='Report',
+            analysis_check_key='report',
+            analysis_type='manual',
+            execution_status='',
+            description_md='*Empty.*',
+            created_by=self.owner,
+        )
+
+    def _url(self, finding_id):
+        return f'/api/engagements/{self.engagement.pk}/findings/{finding_id}/send-to-report/'
+
+    def test_send_to_report_appends_source_content(self):
+        """Happy path: source description is appended with a header to the Report finding."""
+        self._auth_as(self.owner)
+        response = self.client.post(self._url(self.source.pk), format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['report_id'], str(self.report.pk))
+        self.report.refresh_from_db()
+        self.assertIn('*Empty.*', self.report.description_md)
+        self.assertIn('### From: File Hash Identification', self.report.description_md)
+        self.assertIn('MD5: `deadbeef`', self.report.description_md)
+
+    def test_send_to_report_appends_twice(self):
+        """Two sends append twice — no dedup."""
+        self._auth_as(self.owner)
+        self.client.post(self._url(self.source.pk), format='json')
+        self.client.post(self._url(self.source.pk), format='json')
+        self.report.refresh_from_db()
+        self.assertEqual(self.report.description_md.count('### From: File Hash Identification'), 2)
+
+    def test_send_to_report_self_append_rejected(self):
+        """Sending the Report finding to itself returns 400."""
+        self._auth_as(self.owner)
+        response = self.client.post(self._url(self.report.pk), format='json')
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('itself', response.data['detail'].lower())
+
+    def test_send_to_report_unexecuted_source_rejected(self):
+        """Pending/failed analysis findings cannot be sent to report."""
+        self.source.execution_status = 'pending'
+        self.source.save()
+        self._auth_as(self.owner)
+        response = self.client.post(self._url(self.source.pk), format='json')
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('not been executed', response.data['detail'].lower())
+
+    def test_send_to_report_missing_report_finding(self):
+        """If no Report finding exists for the sample, returns 400."""
+        self.report.delete()
+        self._auth_as(self.owner)
+        response = self.client.post(self._url(self.source.pk), format='json')
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('no report finding', response.data['detail'].lower())
+
+    def test_send_to_report_source_not_found(self):
+        """Unknown source finding returns 404."""
+        self._auth_as(self.owner)
+        response = self.client.post(self._url(uuid.uuid4()), format='json')
+        self.assertEqual(response.status_code, 404)
+
+
+# ===================================================================
 # Stakeholders endpoints (lines 1004-1165)
 # ===================================================================
 
