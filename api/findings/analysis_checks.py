@@ -18,6 +18,13 @@ logger = logging.getLogger(__name__)
 
 ANALYSIS_CHECKS = [
     {
+        'key': 'report',
+        'title': 'Report',
+        'description_placeholder': '*Empty.* Use **Send to Report** on any finding to append its content here, or edit this finding directly to build your analysis summary.',
+        'analysis_type': 'manual',
+        'file_types': [],
+    },
+    {
         'key': 'hash_identification',
         'title': 'File Hash Identification',
         'description_placeholder': '*Pending execution.* Click **Execute** to generate file hashes.',

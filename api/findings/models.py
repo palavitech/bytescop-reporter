@@ -109,6 +109,7 @@ class Finding(TimeStampedModel):
     ANALYSIS_TYPES = [
         ('static', 'Static Analysis'),
         ('dynamic', 'Dynamic Analysis'),
+        ('manual', 'Manual'),
     ]
 
     title = models.CharField(max_length=240)
