@@ -1,7 +1,7 @@
 Elastic License 2.0
 
 Licensor: PalaviTech
-Software: BytesCop
+Software: BytesCop-Reporter
 Copyright (c) 2026 PalaviTech. All Rights Reserved.
 
 URL: https://www.elastic.co/licensing/elastic-license
@@ -77,7 +77,7 @@ legal claim.*
 ## Definitions
 
 The **licensor** is PalaviTech, the entity offering these terms, and the
-**software** is BytesCop, the software the licensor makes available under these
+**software** is BytesCop-Reporter, the software the licensor makes available under these
 terms, including any portion of it.
 
 **you** refers to the individual or entity agreeing to these terms.
