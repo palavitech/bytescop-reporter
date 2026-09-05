@@ -4,6 +4,15 @@ All notable changes to BytesCop-Reporter will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] - 2026-09-05
+
+### Changed
+- Rename the product to BytesCop-Reporter across all user-facing text — UI titles and headings, email subjects and templates, CLI banners, and the TOTP issuer shown in authenticator apps
+- Update CLAUDE.md to match the current codebase (session auth, RBAC model, storage backend, malware analysis subsystem)
+
+### Notes
+- Terms of Service, Privacy Policy and LICENSE.md intentionally retain the BytesCop name pending legal review
+
 ## [1.2.5] - 2026-04-22
 
 ### Added
