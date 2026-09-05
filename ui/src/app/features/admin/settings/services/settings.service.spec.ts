@@ -10,7 +10,7 @@ const MOCK_SETTING: SettingDefinition = {
   description: 'Your company name',
   setting_type: 'text',
   choices: [],
-  default: 'BytesCop',
+  default: 'BytesCop-Reporter',
   group: 'general',
   order: 1,
   value: 'ACME',

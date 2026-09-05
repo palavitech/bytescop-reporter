@@ -177,7 +177,7 @@ describe('ReportService', () => {
     await service.generate(MOCK_ENGAGEMENT, [], []);
 
     const html = mockDoc.write.calls.first().args[0] as string;
-    expect(html).toContain('BytesCop');
+    expect(html).toContain('BytesCop-Reporter');
   });
 
   it('generate() falls back when company_name setting has empty value', async () => {
@@ -190,7 +190,7 @@ describe('ReportService', () => {
     await service.generate(MOCK_ENGAGEMENT, [], []);
 
     const html = mockDoc.write.calls.first().args[0] as string;
-    expect(html).toContain('BytesCop');
+    expect(html).toContain('BytesCop-Reporter');
   });
 
   it('generate() includes logo when available', async () => {
@@ -366,7 +366,7 @@ describe('ReportService', () => {
     expect(html).toContain('No critical or high severity findings');
   });
 
-  it('generate() falls back to BytesCop when company_name key not found', async () => {
+  it('generate() falls back to BytesCop-Reporter when company_name key not found', async () => {
     settingsService.list.and.returnValue(of([
       { key: 'other_setting', value: 'foo', label: '', description: '', setting_type: 'text' as const, choices: [], default: '', group: '', order: 0, has_value: true, updated_at: null, updated_by: null },
     ]));
@@ -376,7 +376,7 @@ describe('ReportService', () => {
     await service.generate(MOCK_ENGAGEMENT, [], []);
 
     const html = mockDoc.write.calls.first().args[0] as string;
-    expect(html).toContain('BytesCop');
+    expect(html).toContain('BytesCop-Reporter');
   });
 
   it('generate() handles finding with no assessment_area', async () => {
