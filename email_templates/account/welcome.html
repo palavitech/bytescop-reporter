@@ -1,12 +1,12 @@
 {% extends "shells/branded.html" %}
-{% block title %}Welcome to BytesCop{% endblock %}
+{% block title %}Welcome to BytesCop-Reporter{% endblock %}
 {% block content %}
               <p style="margin:0 0 20px; font-size:18px; color:#e6edf3; line-height:1.6;">
                 {% if name %}Welcome aboard, <strong style="color:#00ffb3;">{{ name }}</strong>.{% else %}Welcome aboard.{% endif %}
               </p>
 
               <p style="margin:0 0 24px; font-size:16px; color:#c9d1d9; line-height:1.7;">
-                You're now part of <strong style="color:#e6edf3;">{{ tenant_name | default('BytesCop', true) }}</strong> &mdash; and we're glad to have you here.
+                You're now part of <strong style="color:#e6edf3;">{{ tenant_name | default('BytesCop-Reporter', true) }}</strong> &mdash; and we're glad to have you here.
               </p>
 
               <!-- Divider accent -->
@@ -17,7 +17,7 @@
               </table>
 
               <p style="margin:0 0 24px; font-size:16px; color:#c9d1d9; line-height:1.7;">
-                BytesCop is your team's secure workspace for managing security assessments, tracking findings, and collaborating on remediation &mdash; all in one place.
+                BytesCop-Reporter is your team's secure workspace for managing security assessments, tracking findings, and collaborating on remediation &mdash; all in one place.
               </p>
 
               <!-- What you can do -->
@@ -71,7 +71,7 @@
               </table>
 
               <p style="margin:0; font-size:15px; color:#c9d1d9; line-height:1.7;">
-                We're building BytesCop to make security work simpler and more transparent. If you ever need anything, don't hesitate to reach out &mdash; we'd love to hear from you.
+                We're building BytesCop-Reporter to make security work simpler and more transparent. If you ever need anything, don't hesitate to reach out &mdash; we'd love to hear from you.
               </p>
 {% endblock %}
-{% block sub_footer %}You received this email because you joined {{ tenant_name | default('BytesCop', true) }}. For any inquiries, reach us at <a href="mailto:team@bytescop.com" style="color:#00b7ff; text-decoration:none;">team@bytescop.com</a>.{% endblock %}
+{% block sub_footer %}You received this email because you joined {{ tenant_name | default('BytesCop-Reporter', true) }}. For any inquiries, reach us at <a href="mailto:team@bytescop.com" style="color:#00b7ff; text-decoration:none;">team@bytescop.com</a>.{% endblock %}

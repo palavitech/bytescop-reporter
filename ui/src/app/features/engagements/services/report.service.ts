@@ -55,7 +55,7 @@ export class ReportService {
       (a, b) => SEV_ORDER.indexOf(a.severity) - SEV_ORDER.indexOf(b.severity),
     );
 
-    let companyName = 'BytesCop';
+    let companyName = 'BytesCop-Reporter';
     try {
       const settings = await firstValueFrom(this.settingsService.list());
       const cn = settings.find(s => s.key === 'company_name');
@@ -162,7 +162,7 @@ export class ReportService {
       ? sorted.map((f, i) => this.buildFinding(f, i, descriptions[i], recommendations[i])).join('\n')
       : '<p style="color:var(--muted);font-style:italic;padding:20px 0;">No findings recorded for this engagement.</p>';
 
-    // Brand block — uses tenant logo if available, otherwise BytesCop SVG mark
+    // Brand block — uses tenant logo if available, otherwise BytesCop-Reporter SVG mark
     const brandHtml = logoDataUrl
       ? `<img src="${logoDataUrl}" class="bc-markLogo" alt="${this.esc(companyName)}" />`
       : `<div class="bc-mark"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg></div>`;

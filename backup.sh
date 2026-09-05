@@ -9,7 +9,7 @@ BACKUP_PATH="${BACKUP_DIR}/${BACKUP_NAME}"
 mkdir -p "${BACKUP_PATH}"
 
 echo "========================================="
-echo "  BytesCop — Backup"
+echo "  BytesCop-Reporter — Backup"
 echo "========================================="
 echo
 

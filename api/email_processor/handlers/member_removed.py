@@ -10,7 +10,7 @@ class MemberRemovedHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'You have been removed from an organization — BytesCop'
+        return 'You have been removed from an organization — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {

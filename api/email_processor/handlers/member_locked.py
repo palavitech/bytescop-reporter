@@ -10,7 +10,7 @@ class MemberLockedHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'Your account has been locked — BytesCop'
+        return 'Your account has been locked — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {
@@ -26,7 +26,7 @@ class MemberUnlockedHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'Your account has been unlocked — BytesCop'
+        return 'Your account has been unlocked — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {

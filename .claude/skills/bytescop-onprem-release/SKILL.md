@@ -1,12 +1,12 @@
 ---
 name: bytescop-onprem-release
-description: Create a new BytesCop on-prem release — calculates next version, updates VERSION and CHANGELOG, tags, and pushes.
+description: Create a new BytesCop-Reporter on-prem release — calculates next version, updates VERSION and CHANGELOG, tags, and pushes.
 argument-hint: "[patch|minor|major] or [specific version like 1.2.0]"
 ---
 
-# BytesCop On-Prem Release
+# BytesCop-Reporter On-Prem Release
 
-You are orchestrating a release for the BytesCop on-premises product.
+You are orchestrating a release for the BytesCop-Reporter on-premises product.
 
 ## Step 1: Gather current state
 

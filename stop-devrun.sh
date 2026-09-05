@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 echo
-echo "[*] BytesCop — Stopping Dev Environment"
+echo "[*] BytesCop-Reporter — Stopping Dev Environment"
 echo
 
 COMPOSE="docker compose -f docker-compose.yml -f docker-compose.dev.yml"

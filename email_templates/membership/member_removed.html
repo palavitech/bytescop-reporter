@@ -1,11 +1,11 @@
 {% extends "shells/base.html" %}
-{% block title %}Removed from organization — BytesCop{% endblock %}
+{% block title %}Removed from organization — BytesCop-Reporter{% endblock %}
 {% block content %}
               <p style="margin:0 0 20px; font-size:18px; color:#e6edf3; line-height:1.6;">
                 {% if name %}Hi <strong>{{ name }}</strong>,{% else %}Hi,{% endif %}
               </p>
               <p style="margin:0 0 24px; font-size:16px; color:#c9d1d9; line-height:1.7;">
-                You have been removed from <strong style="color:#e6edf3;">{{ tenant_name | default('an organization', true) }}</strong> on BytesCop{% if removed_by %} by <strong style="color:#e6edf3;">{{ removed_by }}</strong>{% endif %}.
+                You have been removed from <strong style="color:#e6edf3;">{{ tenant_name | default('an organization', true) }}</strong> on BytesCop-Reporter{% if removed_by %} by <strong style="color:#e6edf3;">{{ removed_by }}</strong>{% endif %}.
               </p>
               <p style="margin:0 0 24px; font-size:16px; color:#c9d1d9; line-height:1.7;">
                 You will no longer be able to access this organization's data, engagements, or findings.
@@ -22,4 +22,4 @@
                 </tr>
               </table>
 {% endblock %}
-{% block sub_footer %}You received this email because your membership in a BytesCop organization was revoked.{% endblock %}
+{% block sub_footer %}You received this email because your membership in a BytesCop-Reporter organization was revoked.{% endblock %}

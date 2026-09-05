@@ -1,12 +1,12 @@
-# BytesCop
+# BytesCop-Reporter
 
 
-![BytesCop](bytescop.png)
+![BytesCop-Reporter](bytescop.png)
 [Illustrative image only. Features shown are conceptual and may not reflect the current product.]
 
 **Security findings management platform** — consolidate pen tests, vulnerability scans, and manual assessments into a single source of truth.
 
-BytesCop is source-available. Full source code is publicly accessible for review, audit, and development. Self-host for free (Community Edition) or purchase an Enterprise license for advanced features.
+BytesCop-Reporter is source-available. Full source code is publicly accessible for review, audit, and development. Self-host for free (Community Edition) or purchase an Enterprise license for advanced features.
 
 ## Table of Contents
 
@@ -61,7 +61,7 @@ Creates a timestamped backup of the database and media files in `./backups/`.
 
 ## Architecture
 
-BytesCop runs as 7 Docker containers:
+BytesCop-Reporter runs as 7 Docker containers:
 
 | Service | Purpose |
 |---------|---------|
@@ -100,7 +100,7 @@ Edit `.env` to configure:
 
 ### Email (Optional)
 
-BytesCop works fully without email configured. When SMTP is set up, you get:
+BytesCop-Reporter works fully without email configured. When SMTP is set up, you get:
 - Password reset emails
 - User invitation emails
 - Export completion notifications
@@ -119,7 +119,7 @@ These require SSH access to the server. Use `--help` on any script for full usag
 
 ### HTTPS
 
-BytesCop ships with HTTPS enabled using a self-signed certificate (generated automatically during install). Your browser will show a certificate warning on first visit — this is expected.
+BytesCop-Reporter ships with HTTPS enabled using a self-signed certificate (generated automatically during install). Your browser will show a certificate warning on first visit — this is expected.
 
 To use your own certificate (Let's Encrypt, corporate CA, etc.), replace the files in `ssl/` and restart nginx:
 
@@ -386,10 +386,10 @@ Open **https://localhost** (self-signed cert warning is expected). This is the s
 
 ## License
 
-BytesCop is licensed under the [Elastic License 2.0](LICENSE.md). See the LICENSE file for details.
+BytesCop-Reporter is licensed under the [Elastic License 2.0](LICENSE.md). See the LICENSE file for details.
 
 - **Free**: Use, copy, distribute, and modify for any purpose
-- **Two restrictions**: (1) You may not offer BytesCop as a hosted/managed service, (2) You may not circumvent or remove license key functionality
+- **Two restrictions**: (1) You may not offer BytesCop-Reporter as a hosted/managed service, (2) You may not circumvent or remove license key functionality
 
 ## Support
 

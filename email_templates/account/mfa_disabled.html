@@ -1,11 +1,11 @@
 {% extends "shells/base.html" %}
-{% block title %}MFA disabled — BytesCop{% endblock %}
+{% block title %}MFA disabled — BytesCop-Reporter{% endblock %}
 {% block content %}
               <p style="margin:0 0 20px; font-size:18px; color:#e6edf3; line-height:1.6;">
                 {% if name %}Hi <strong>{{ name }}</strong>,{% else %}Hi,{% endif %}
               </p>
               <p style="margin:0 0 24px; font-size:16px; color:#c9d1d9; line-height:1.7;">
-                Multi-factor authentication (MFA) has been <strong style="color:#ff3b7a;">disabled</strong> on your BytesCop account.
+                Multi-factor authentication (MFA) has been <strong style="color:#ff3b7a;">disabled</strong> on your BytesCop-Reporter account.
               </p>
 
               <!-- Warning box -->
@@ -33,4 +33,4 @@
                 </tr>
               </table>
 {% endblock %}
-{% block sub_footer %}You received this email because MFA was disabled on your BytesCop account.{% endblock %}
+{% block sub_footer %}You received this email because MFA was disabled on your BytesCop-Reporter account.{% endblock %}

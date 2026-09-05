@@ -30,7 +30,7 @@ class CommentMentionHandler(BaseEventHandler):
 
     def get_subject(self, payload: dict) -> str:
         author = payload.get('mentioned_by_name', 'Someone')
-        return f'{author} mentioned you in a comment — BytesCop'
+        return f'{author} mentioned you in a comment — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {
@@ -51,7 +51,7 @@ class CommentReplyHandler(BaseEventHandler):
 
     def get_subject(self, payload: dict) -> str:
         author = payload.get('reply_by_name', 'Someone')
-        return f'{author} replied to a comment — BytesCop'
+        return f'{author} replied to a comment — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {

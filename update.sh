@@ -4,7 +4,7 @@ set -euo pipefail
 CURRENT_VERSION=$(cat VERSION 2>/dev/null || echo "unknown")
 
 echo "========================================="
-echo "  BytesCop — Update"
+echo "  BytesCop-Reporter — Update"
 echo "  Current version: v${CURRENT_VERSION}"
 echo "========================================="
 echo
@@ -130,7 +130,7 @@ docker compose exec -T api python manage.py ensure_classification_entries
 
 echo
 echo "========================================="
-echo "  [+] BytesCop v${APP_VERSION} is ready!"
+echo "  [+] BytesCop-Reporter v${APP_VERSION} is ready!"
 echo "========================================="
 echo
 if [ "$CODE_UPDATE_NEEDED" = true ]; then

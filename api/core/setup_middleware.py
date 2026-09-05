@@ -35,7 +35,7 @@ class SetupGateMiddleware:
             return JsonResponse(
                 {
                     'setup_required': True,
-                    'detail': 'BytesCop has not been configured yet. Please complete the setup wizard to get started.',
+                    'detail': 'BytesCop-Reporter has not been configured yet. Please complete the setup wizard to get started.',
                 },
                 status=403,
             )

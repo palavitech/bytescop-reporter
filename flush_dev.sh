@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 echo
-echo "[*] BytesCop — Flush Dev Data"
+echo "[*] BytesCop-Reporter — Flush Dev Data"
 echo
 
 # Safety check: only allow in dev environment

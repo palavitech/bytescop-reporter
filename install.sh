@@ -2,7 +2,7 @@
 set -euo pipefail
 
 echo "========================================="
-echo "  BytesCop — Installation"
+echo "  BytesCop-Reporter — Installation"
 echo "========================================="
 echo
 
@@ -22,7 +22,7 @@ if [ -f .env ] || [ -d ./data/postgres ] || docker compose ps -q 2>/dev/null | g
 fi
 
 if [ "$PREVIOUS_INSTALL" = true ]; then
-    echo "[!] A previous BytesCop installation was detected."
+    echo "[!] A previous BytesCop-Reporter installation was detected."
     echo
     echo "    Continuing will:"
     echo "    - Stop all running containers"
@@ -90,7 +90,7 @@ mkdir -p ./logs ./data/postgres
 # Read version
 APP_VERSION=$(cat VERSION 2>/dev/null || echo "dev")
 export APP_VERSION
-echo "[*] Installing BytesCop v${APP_VERSION}"
+echo "[*] Installing BytesCop-Reporter v${APP_VERSION}"
 echo
 
 # Build and start
@@ -123,7 +123,7 @@ docker compose exec -T api python manage.py ensure_install_state
 
 echo
 echo "========================================="
-echo "  [+] BytesCop v${APP_VERSION} is running!"
+echo "  [+] BytesCop-Reporter v${APP_VERSION} is running!"
 echo "========================================="
 echo
 echo "  Open https://localhost in your browser."

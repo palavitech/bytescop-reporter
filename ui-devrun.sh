@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR/ui"
 
 echo
-echo "[*] BytesCop — UI Dev Runner"
+echo "[*] BytesCop-Reporter — UI Dev Runner"
 echo
 
 # Check Node.js

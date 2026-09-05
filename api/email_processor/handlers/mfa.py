@@ -10,7 +10,7 @@ class MfaEnrolledHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'MFA has been enabled on your account — BytesCop'
+        return 'MFA has been enabled on your account — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {
@@ -26,7 +26,7 @@ class MfaDisabledHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'MFA has been disabled on your account — BytesCop'
+        return 'MFA has been disabled on your account — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {
@@ -42,7 +42,7 @@ class MfaDeviceChangedHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'Your MFA device has been changed — BytesCop'
+        return 'Your MFA device has been changed — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {
@@ -58,7 +58,7 @@ class MfaBackupCodesRegeneratedHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'Your MFA backup codes have been regenerated — BytesCop'
+        return 'Your MFA backup codes have been regenerated — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {
@@ -74,7 +74,7 @@ class MfaResetByAdminHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'Your MFA has been reset by an administrator — BytesCop'
+        return 'Your MFA has been reset by an administrator — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {

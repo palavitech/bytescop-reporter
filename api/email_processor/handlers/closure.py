@@ -14,7 +14,7 @@ class ClosureConfirmHandler(BaseEventHandler):
         return payload.get('email', '')
 
     def get_subject(self, payload: dict) -> str:
-        return 'Confirm tenant closure — BytesCop'
+        return 'Confirm tenant closure — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {
@@ -32,7 +32,7 @@ class ClosureExecuteHandler(BaseEventHandler):
         return payload.get('email', '')
 
     def get_subject(self, payload: dict) -> str:
-        return 'Tenant closure in progress — BytesCop'
+        return 'Tenant closure in progress — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {
@@ -50,7 +50,7 @@ class ClosurePurgedHandler(BaseEventHandler):
         return payload.get('email', '')
 
     def get_subject(self, payload: dict) -> str:
-        return 'Your tenant has been permanently deleted — BytesCop'
+        return 'Your tenant has been permanently deleted — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {

@@ -14,7 +14,7 @@ from .mfa_crypto import decrypt_secret, encrypt_secret
 
 logger = logging.getLogger("bytescop.mfa")
 
-ISSUER_NAME = "BytesCop"
+ISSUER_NAME = "BytesCop-Reporter"
 BACKUP_CODE_COUNT = 10
 BACKUP_CODE_LENGTH = 8  # hex chars
 

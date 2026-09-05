@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-BytesCop is a self-hosted security findings management platform. It consolidates pen tests, malware analysis, digital forensics, and manual assessments into a single multi-tenant workspace. The repo contains a Django REST API (`api/`), an Angular frontend (`ui/`), Docker orchestration, and operational shell scripts.
+BytesCop-Reporter is a self-hosted security findings management platform. It consolidates pen tests, malware analysis, digital forensics, and manual assessments into a single multi-tenant workspace. The repo contains a Django REST API (`api/`), an Angular frontend (`ui/`), Docker orchestration, and operational shell scripts.
 
 Licensed under Elastic License 2.0 (source-available, not OSS). Version is tracked in `VERSION`; releases are cut via the `bytescop-onprem-release` skill.
 

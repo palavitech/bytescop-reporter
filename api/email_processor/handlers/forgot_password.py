@@ -14,7 +14,7 @@ class ForgotPasswordHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'Reset your password — BytesCop'
+        return 'Reset your password — BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         token = payload.get('reset_token', '')

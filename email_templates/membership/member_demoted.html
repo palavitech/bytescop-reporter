@@ -1,11 +1,11 @@
 {% extends "shells/branded.html" %}
-{% block title %}Role changed — {{ tenant_name | default('BytesCop', true) }}{% endblock %}
+{% block title %}Role changed — {{ tenant_name | default('BytesCop-Reporter', true) }}{% endblock %}
 {% block content %}
               <p style="margin:0 0 20px; font-size:18px; color:#e6edf3; line-height:1.6;">
                 {% if name %}Hi <strong>{{ name }}</strong>,{% else %}Hi,{% endif %}
               </p>
               <p style="margin:0 0 24px; font-size:16px; color:#c9d1d9; line-height:1.7;">
-                Your role on <strong style="color:#e6edf3;">{{ tenant_name | default('BytesCop', true) }}</strong> has been changed from <strong style="color:#ff3b7a;">Owner</strong> to <strong style="color:#e6edf3;">Member</strong>{% if demoted_by %} by <strong style="color:#e6edf3;">{{ demoted_by }}</strong>{% endif %}.
+                Your role on <strong style="color:#e6edf3;">{{ tenant_name | default('BytesCop-Reporter', true) }}</strong> has been changed from <strong style="color:#ff3b7a;">Owner</strong> to <strong style="color:#e6edf3;">Member</strong>{% if demoted_by %} by <strong style="color:#e6edf3;">{{ demoted_by }}</strong>{% endif %}.
               </p>
 
               <!-- What this means box -->
@@ -33,4 +33,4 @@
                 </tr>
               </table>
 {% endblock %}
-{% block sub_footer %}You received this email because your role was changed on {{ tenant_name | default('BytesCop', true) }}.{% endblock %}
+{% block sub_footer %}You received this email because your role was changed on {{ tenant_name | default('BytesCop-Reporter', true) }}.{% endblock %}

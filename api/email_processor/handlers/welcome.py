@@ -14,7 +14,7 @@ class WelcomeHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return 'Welcome to BytesCop'
+        return 'Welcome to BytesCop-Reporter'
 
     def get_template_data(self, payload: dict) -> dict:
         return {

@@ -1,11 +1,11 @@
 {% extends "shells/base.html" %}
-{% block title %}MFA device changed — BytesCop{% endblock %}
+{% block title %}MFA device changed — BytesCop-Reporter{% endblock %}
 {% block content %}
               <p style="margin:0 0 20px; font-size:18px; color:#e6edf3; line-height:1.6;">
                 {% if name %}Hi <strong>{{ name }}</strong>,{% else %}Hi,{% endif %}
               </p>
               <p style="margin:0 0 24px; font-size:16px; color:#c9d1d9; line-height:1.7;">
-                The authenticator device for your BytesCop account has been <strong style="color:#00b7ff;">changed</strong>. Your previous device can no longer be used to sign in.
+                The authenticator device for your BytesCop-Reporter account has been <strong style="color:#00b7ff;">changed</strong>. Your previous device can no longer be used to sign in.
               </p>
 
               <!-- Info box -->
@@ -33,4 +33,4 @@
                 </tr>
               </table>
 {% endblock %}
-{% block sub_footer %}You received this email because the MFA device on your BytesCop account was changed.{% endblock %}
+{% block sub_footer %}You received this email because the MFA device on your BytesCop-Reporter account was changed.{% endblock %}

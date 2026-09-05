@@ -28,7 +28,7 @@ export CELERY_RESULT_BACKEND="redis://localhost:6379/0"
 COMPOSE="docker compose -f docker-compose.yml -f docker-compose.dev.yml"
 
 echo
-echo "[*] BytesCop — API Dev Runner"
+echo "[*] BytesCop-Reporter — API Dev Runner"
 echo
 
 # Step 1: Infrastructure (Docker)

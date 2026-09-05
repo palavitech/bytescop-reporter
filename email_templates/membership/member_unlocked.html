@@ -1,11 +1,11 @@
 {% extends "shells/branded.html" %}
-{% block title %}Account unlocked — BytesCop{% endblock %}
+{% block title %}Account unlocked — BytesCop-Reporter{% endblock %}
 {% block content %}
               <p style="margin:0 0 20px; font-size:18px; color:#e6edf3; line-height:1.6;">
                 {% if name %}Hi <strong>{{ name }}</strong>,{% else %}Hi,{% endif %}
               </p>
               <p style="margin:0 0 24px; font-size:16px; color:#c9d1d9; line-height:1.7;">
-                Your account in <strong style="color:#e6edf3;">{{ tenant_name | default('an organization', true) }}</strong> on BytesCop has been <strong style="color:#00ffb3;">unlocked</strong>. You can sign in again.
+                Your account in <strong style="color:#e6edf3;">{{ tenant_name | default('an organization', true) }}</strong> on BytesCop-Reporter has been <strong style="color:#00ffb3;">unlocked</strong>. You can sign in again.
               </p>
 
               <!-- CTA button -->
@@ -25,4 +25,4 @@
                 </tr>
               </table>
 {% endblock %}
-{% block sub_footer %}You received this email because your BytesCop account was unlocked by an administrator.{% endblock %}
+{% block sub_footer %}You received this email because your BytesCop-Reporter account was unlocked by an administrator.{% endblock %}

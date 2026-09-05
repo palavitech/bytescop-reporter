@@ -14,7 +14,7 @@ class MemberCreatedHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        return "You've been invited to BytesCop"
+        return "You've been invited to BytesCop-Reporter"
 
     def get_template_data(self, payload: dict) -> dict:
         token = payload.get('invite_token', '')
@@ -36,7 +36,7 @@ class MemberPromotedHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        tenant = payload.get('tenant_name', 'BytesCop')
+        tenant = payload.get('tenant_name', 'BytesCop-Reporter')
         return f"You've been promoted to Owner \u2014 {tenant}"
 
     def get_template_data(self, payload: dict) -> dict:
@@ -55,7 +55,7 @@ class MemberDemotedHandler(BaseEventHandler):
         return payload['email']
 
     def get_subject(self, payload: dict) -> str:
-        tenant = payload.get('tenant_name', 'BytesCop')
+        tenant = payload.get('tenant_name', 'BytesCop-Reporter')
         return f"Your role has changed \u2014 {tenant}"
 
     def get_template_data(self, payload: dict) -> dict:
